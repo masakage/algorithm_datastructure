@@ -1,4 +1,5 @@
 //教科書 161ページ　ハッシュテーブルへの要素追加
+//チェーン法で実装している
 
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 namespace HashTableChain
 
 {
-    // 構造体の定義 もとのデータ
+    // 構造体の定義 作成されたデータ
     public struct TBL
     {
         public int Key;
@@ -17,7 +18,7 @@ namespace HashTableChain
         public int Next;
     }
 
-	// 追加するデータ（構造体）
+    // 追加するデータ（構造体）
     public struct E
     {
         public int Key;
@@ -26,8 +27,7 @@ namespace HashTableChain
 
     class HashTableChain
     {
-
-    static void Main(string[] args)
+        static void Main(string[] args)
         {
 
             //追加するデータ　構造体 Eで定義
@@ -35,16 +35,15 @@ namespace HashTableChain
             e[0] = new E() { Key = 64, Data = "Reader" };
             e[1] = new E() { Key = 17, Data = "USB" };
 
-            HashTableChain h = new HashTableChain();
 
             //実際のデータの追加
-            Console.WriteLine(h.AddToTBL(e[0]));
-            Console.WriteLine(h.AddToTBL(e[1]));
+            Console.WriteLine(AddToTBL(e[0]));
+            Console.WriteLine(AddToTBL(e[1]));
             Console.ReadKey();
 
         }
 
-        public Boolean AddToTBL(E e)
+        public static Boolean AddToTBL(E e)
         {
             int StoreIdx, ListTail, N;
             Boolean Ret;
@@ -63,6 +62,7 @@ namespace HashTableChain
             tbl[9] = new TBL() { Key = 42, Data = "BD_Drive", Next = -1 };
             tbl[10] = new TBL() { Key = 21, Data = "Scaner", Next = -1 };
 
+            //以降のデータを初期化する
             for (int i = 11; i < tbl.Length; ++i)
             {
                 tbl[i] = new TBL() { Key = -1, Data = "Null", Next = -1 };
@@ -104,15 +104,15 @@ namespace HashTableChain
                     Ret = false;
                 }
             }
-            Console.WriteLine("Key="+tbl[StoreIdx].Key+ " Data="+tbl[StoreIdx].Data);
+            Console.WriteLine("Key=" + tbl[StoreIdx].Key + " Data=" + tbl[StoreIdx].Data);
             return Ret;
         }
 
-        //31の余りアドレスを返却する関数
-        public int Hash(int Key)
+        //31の余りアドレスを返却するハッシュ関数
+        public static int Hash(int Key)
         {
-            return Key%31;
+            return Key % 31;
         }
-        
+
     }
 }
